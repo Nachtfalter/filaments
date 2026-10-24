@@ -4,7 +4,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Meine Filament-Bibliothek – eine Übersicht meiner 3D-Druck-Filamente.">
   <title>Meine Filament-Bibliothek</title>
+
   <style>
     :root {
       --background: #f5f5f5;
@@ -15,15 +17,21 @@
       --radius: 16px;
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
 
     body {
       margin: 0;
       background: var(--background);
       color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-        Helvetica, Arial, sans-serif;
-      -webkit-font-smoothing: antialiased;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.5;
     }
 
     .container {
@@ -34,422 +42,418 @@
     }
 
     h1 {
-      margin: 0 0 36px;
-      font-size: clamp(28px, 4vw, 38px);
-      font-weight: 700;
-      letter-spacing: -1.2px;
+      margin: 0 0 12px;
+      font-size: clamp(28px, 4vw, 40px);
       line-height: 1.2;
+      letter-spacing: -0.8px;
     }
 
-    .filament-group { margin-bottom: 42px; }
+    .intro {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin: 0 0 40px;
+    }
+
+    .intro-item {
+      padding: 18px 20px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+
+    .intro-item h2 {
+      margin: 0 0 6px;
+      font-size: 18px;
+      line-height: 1.3;
+    }
+
+    .intro-item p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .filament-group {
+      margin-bottom: 42px;
+    }
 
     .filament-group h2 {
       margin: 0 0 18px;
       font-size: 23px;
-      font-weight: 650;
-      letter-spacing: -0.5px;
+      line-height: 1.3;
+      letter-spacing: -0.3px;
     }
 
     .filament-grid {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 20px;
+      gap: 18px;
+      align-items: stretch;
     }
 
-    .product-card {
+    .filament-card {
       display: flex;
-      flex-direction: column;
       min-width: 0;
+      flex-direction: column;
       overflow: hidden;
+      color: inherit;
+      text-decoration: none;
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      color: inherit;
-      text-decoration: none;
       transition: transform 160ms ease, box-shadow 160ms ease;
     }
 
-    .product-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgb(0 0 0 / 6%);
+    .filament-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
     }
 
-    .product-card:focus-visible,
-    .shop-links a:focus-visible {
-      outline: 3px solid #333;
-      outline-offset: 4px;
-    }
-
-    .product-image {
+    .filament-image {
       display: flex;
       align-items: center;
       justify-content: center;
+      width: 100%;
       aspect-ratio: 1 / 1;
-      padding: 16px;
-      background: #fff;
+      padding: 18px;
+      background: #ffffff;
     }
 
-    .product-image img {
+    .filament-image img {
       display: block;
       width: 100%;
       height: 100%;
       object-fit: contain;
     }
 
-    .product-info {
+    .filament-info {
       display: flex;
       flex: 1;
       flex-direction: column;
       padding: 16px;
-      border-top: 1px solid #f0f0f0;
     }
 
-    .product-name {
-      margin: 0;
+    .filament-name {
+      margin: 0 0 4px;
       font-size: 17px;
-      font-weight: 650;
+      font-weight: 600;
       line-height: 1.35;
       overflow-wrap: anywhere;
     }
 
-    .product-type {
-      margin-top: 5px;
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.4;
-    }
-
-    .product-price {
-      margin-top: 18px;
-      font-size: 19px;
-      font-weight: 700;
-      font-variant-numeric: tabular-nums;
-    }
-
-    .product-unit {
-      margin-top: 4px;
+    .filament-type {
+      margin: 0 0 14px;
       color: var(--muted);
       font-size: 13px;
+    }
+
+    .filament-price {
+      margin-top: auto;
+      font-size: 18px;
+      font-weight: 650;
       line-height: 1.4;
     }
 
-    .product-link-label {
+    .filament-unit {
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .filament-details {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-top: auto;
-      padding-top: 18px;
-      font-size: 14px;
-      font-weight: 600;
+      margin-top: 16px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+      font-size: 13px;
+      font-weight: 500;
     }
 
-    .product-link-label span:last-child { font-size: 17px; }
+    .filament-details span:last-child {
+      font-size: 17px;
+    }
 
-    .shop-section {
+    .shops {
       margin-top: 56px;
-      padding-top: 28px;
+      padding-top: 24px;
       border-top: 1px solid var(--border);
     }
 
-    .shop-section h2 {
-      margin: 0;
-      font-size: 23px;
-      font-weight: 650;
-      letter-spacing: -0.5px;
-    }
-
-    .shop-section p {
-      margin: 10px 0 14px;
-      color: var(--muted);
-      font-size: 15px;
-      line-height: 1.6;
+    .shops h2 {
+      margin: 0 0 12px;
+      font-size: 20px;
     }
 
     .shop-links {
-      margin: 0;
-      padding-left: 20px;
-      font-size: 14px;
-      line-height: 1.9;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
     }
 
     .shop-links a {
       color: var(--text);
-      text-decoration: underline;
-      text-decoration-color: #b7b7b7;
-      text-underline-offset: 3px;
+      text-decoration: none;
+      padding: 9px 14px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--card);
+      font-size: 14px;
     }
 
-    .shop-links a:hover { text-decoration-color: var(--text); }
+    .shop-links a:hover {
+      border-color: #bdbdbd;
+    }
+
+    a:focus-visible {
+      outline: 3px solid #555;
+      outline-offset: 3px;
+    }
 
     @media (max-width: 1000px) {
-      .filament-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .filament-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
     }
 
     @media (max-width: 650px) {
-      .container { padding: 28px 16px 48px; }
+      .container {
+        padding: 28px 16px 48px;
+      }
+
+      .intro {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        margin-bottom: 32px;
+      }
+
       .filament-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 12px;
       }
-      .product-info { padding: 12px; }
-      .product-name { font-size: 15px; }
-      .product-type { font-size: 13px; }
-      .product-price { font-size: 17px; }
-      .product-image { padding: 10px; }
+
+      .filament-image {
+        padding: 12px;
+      }
+
+      .filament-info {
+        padding: 12px;
+      }
+
+      .filament-name {
+        font-size: 15px;
+      }
+
+      .filament-price {
+        font-size: 16px;
+      }
+
+      .filament-details {
+        margin-top: 12px;
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      *,
-      *::before,
-      *::after {
-        scroll-behavior: auto !important;
-        transition-duration: 0.01ms !important;
+      html {
+        scroll-behavior: auto;
+      }
+
+      .filament-card {
+        transition: none;
+      }
+
+      .filament-card:hover {
+        transform: none;
       }
     }
   </style>
 </head>
+
 <body>
   <main class="container">
     <h1>Meine Filament-Bibliothek</h1>
 
-    <div id="filament-library"></div>
+    <section class="intro" aria-label="Materialinformationen">
+      <div class="intro-item">
+        <h2>PLA</h2>
+        <p>Für Deko, Figuren und vieles im Innenbereich. Bei Hitze kann es sich verformen.</p>
+      </div>
 
-    <section class="shop-section" aria-labelledby="shop-heading">
-      <h2 id="shop-heading">Nicht gefunden, was du gerne hättest?</h2>
-      <p>Hier findest du weitere Filamente in den offiziellen Shops.</p>
-      <ul class="shop-links">
-        <li>
-          <a
-            href="https://eu.store.bambulab.com/de/collections/bambu-lab-3d-printer-filament?Durch+Material=PLA%2CPETG&Druckertyp=F%C3%BCr+die+P+Serie&Kompatibilit%C3%A4t=Kompatibel+mit+AMS&page=1"
-            target="_blank"
-            rel="noopener noreferrer"
-          >Bambu Lab – Filament für die P-Serie</a>
-        </li>
-        <li>
-          <a
-            href="https://de.store.sunlu.com/collections/3d-drucker-filament?filter.v.availability=1"
-            target="_blank"
-            rel="noopener noreferrer"
-          >SUNLU – Verfügbare Filamente</a>
-        </li>
-      </ul>
+      <div class="intro-item">
+        <h2>PETG</h2>
+        <p>Zäher und wärmebeständiger als PLA. Gut für Funktionsteile und feuchte Umgebungen; UV-Beständigkeit ist materialabhängig.</p>
+      </div>
+    </section>
+
+    <div id="filament-groups"></div>
+
+    <section class="shops">
+      <h2>Shops</h2>
+      <div class="shop-links">
+        <a href="https://eu.store.bambulab.com/de" target="_blank" rel="noopener noreferrer">Bambu Lab</a>
+        <a href="https://www.sunlu.com/" target="_blank" rel="noopener noreferrer">SUNLU</a>
+      </div>
     </section>
   </main>
 
   <script>
     const filaments = [
       {
+        name: "Pink",
         type: "PLA Basic",
-        color: "Pink",
         price: 16.99,
-        unit: "1 kg",
-        packaging: "Spule",
-        productUrl:
-          "https://eu.store.bambulab.com/de/products/pla-basic-filament?id=42911328141531",
-        imageUrl:
-          "https://store.bblcdn.eu/s8/default/acf1cd31f7ad49a7b444b78d18508200/Pink.jpg__op__resize,m_lfit,w_1920__op__format,f_auto__op__quality,q_80"
+        unit: "1 kg · Spule",
+        url: "https://eu.store.bambulab.com/de/products/pla-basic-filament?id=42911328141531",
+        image: "https://store.bblcdn.eu/s8/default/acf1cd31f7ad49a7b444b78d18508200/Pink.jpg__op__resize,m_lfit,w_1920__op__format,f_auto__op__quality,q_80"
       },
       {
+        name: "Sonnenblumen-Gelb",
         type: "PLA Basic",
-        color: "Sonnenblumen-Gelb",
         price: 19.99,
-        unit: "1 kg",
-        packaging: "Spule",
-        productUrl:
-          "https://eu.store.bambulab.com/de/products/pla-basic-filament?id=53951741002076",
-        imageUrl:
-          "https://store.bblcdn.eu/s8/default/1d4c7a172193440882b37ac54252563a/SunflowerYellow.jpg__op__resize,m_lfit,w_1920__op__format,f_auto__op__quality,q_80"
+        unit: "1 kg · Spule",
+        url: "https://eu.store.bambulab.com/de/products/pla-basic-filament?id=53951741002076",
+        image: "https://store.bblcdn.eu/s8/default/1d4c7a172193440882b37ac54252563a/SunflowerYellow.jpg__op__resize,m_lfit,w_1920__op__format,f_auto__op__quality,q_80"
       },
       {
+        name: "Lila",
         type: "PLA Basic",
-        color: "Lila",
         price: 16.99,
-        unit: "1 kg",
-        packaging: "Nachfüllung",
-        productUrl:
-          "https://eu.store.bambulab.com/de/products/pla-basic-filament?p=W3sicHJvcGVydHlLZXkiOiJGYXJiZSIsInByb3BlcnR5VmFsdWUiOiJMaWxhICgxMDcwMCkifSx7InByb3BlcnR5S2V5IjoiVHlwIiwicHJvcGVydHlWYWx1ZSI6IiJ9LHsicHJvcGVydHlLZXkiOiJHcsO2w59lIiwicHJvcGVydHlWYWx1ZSI6IjEga2cifV0%3D",
-        imageUrl:
-          "https://store.bblcdn.eu/s8/default/7297bc043a904b6b9e72f7eaed6215ec/PLAPurple.jpg__op__resize,m_lfit,w_1920__op__format,f_auto__op__quality,q_80"
+        unit: "1 kg · Nachfüllung",
+        url: "https://eu.store.bambulab.com/de/products/pla-basic-filament?p=W3sicHJvcGVydHlLZXkiOiJGYXJiZSIsInByb3BlcnR5VmFsdWUiOiJMaWxhICgxMDcwMCkifSx7InByb3BlcnR5S2V5IjoiVHlwIiwicHJvcGVydHlWYWx1ZSI6IiJ9LHsicHJvcGVydHlLZXkiOiJHcsO2w59lIiwicHJvcGVydHlWYWx1ZSI6IjEga2cifV0%3D",
+        image: "https://store.bblcdn.eu/s8/default/7297bc043a904b6b9e72f7eaed6215ec/PLAPurple.jpg__op__resize,m_lfit,w_1920__op__format,f_auto__op__quality,q_80"
       },
       {
+        name: "Schwarz",
         type: "PLA Basic",
-        color: "Schwarz",
         price: 19.99,
-        unit: "1 kg",
-        packaging: "Spule",
-        productUrl:
-          "https://eu.store.bambulab.com/de/products/pla-basic-filament?id=43992830017755",
-        imageUrl:
-          "https://store.bblcdn.eu/s8/default/19633c57e2d446428e4c8401619c6ffb/PLA-Basic_Black_29c482c8-ccd6-4559-bf2b-058f7d0d798f.png__op__resize,m_lfit,w_1920__op__format,f_auto__op__quality,q_80"
+        unit: "1 kg · Spule",
+        url: "https://eu.store.bambulab.com/de/products/pla-basic-filament?id=43992830017755",
+        image: "https://store.bblcdn.eu/s8/default/19633c57e2d446428e4c8401619c6ffb/PLA-Basic_Black_29c482c8-ccd6-4559-bf2b-058f7d0d798f.png__op__resize,m_lfit,w_1920__op__format,f_auto__op__quality,q_80"
       },
       {
+        name: "Jade-Weiß",
         type: "PLA Basic",
-        color: "Jade-Weiß",
         price: 19.99,
-        unit: "1 kg",
-        packaging: "Spule",
-        productUrl:
-          "https://eu.store.bambulab.com/de/products/pla-basic-filament?id=42911327846619",
-        imageUrl:
-          "https://store.bblcdn.eu/s8/default/0e0f2442945b482eac4ecb20182faf6b/pla_baisc_white.jpg__op__resize,m_lfit,w_1920__op__format,f_auto__op__quality,q_80"
+        unit: "1 kg · Spule",
+        url: "https://eu.store.bambulab.com/de/products/pla-basic-filament?id=42911327846619",
+        image: "https://store.bblcdn.eu/s8/default/0e0f2442945b482eac4ecb20182faf6b/pla_baisc_white.jpg__op__resize,m_lfit,w_1920__op__format,f_auto__op__quality,q_80"
       },
       {
+        name: "Nardo Gray",
         type: "PLA Matte",
-        color: "Nardo Gray",
         price: 22.99,
-        unit: "1 kg",
-        packaging: "Spule",
-        productUrl:
-          "https://eu.store.bambulab.com/de/products/pla-matte?id=53926028837212",
-        imageUrl:
-          "https://store.bblcdn.eu/s8/default/e5bc5b447e304021a85fc07ff9016999/1_ea5b7083-7377-4995-bef2-6c066be034b2.jpg__op__resize,m_lfit,w_1920__op__format,f_auto__op__quality,q_80"
+        unit: "1 kg · Spule",
+        url: "https://eu.store.bambulab.com/de/products/pla-matte?id=53926028837212",
+        image: "https://store.bblcdn.eu/s8/default/e5bc5b447e304021a85fc07ff9016999/1_ea5b7083-7377-4995-bef2-6c066be034b2.jpg__op__resize,m_lfit,w_1920__op__format,f_auto__op__quality,q_80"
       },
       {
+        name: "Bone White",
         type: "PLA Matte",
-        color: "Bone White",
         price: 22.99,
-        unit: "1 kg",
-        packaging: "Spule",
-        productUrl:
-          "https://eu.store.bambulab.com/de/products/pla-matte?id=53926028607836",
-        imageUrl:
-          "https://store.bblcdn.eu/s8/default/af6a90b958ac4ad980f3c32bab4dcfd5/7_890c24b1-12ea-47e1-908a-c8c8afb2b48c.jpg__op__resize,m_lfit,w_1920__op__format,f_auto__op__quality,q_80"
+        unit: "1 kg · Spule",
+        url: "https://eu.store.bambulab.com/de/products/pla-matte?id=53926028607836",
+        image: "https://store.bblcdn.eu/s8/default/af6a90b958ac4ad980f3c32bab4dcfd5/7_890c24b1-12ea-47e1-908a-c8c8afb2b48c.jpg__op__resize,m_lfit,w_1920__op__format,f_auto__op__quality,q_80"
       },
       {
+        name: "Zitronengelb",
         type: "PLA Matte",
-        color: "Zitronengelb",
         price: 16.99,
-        unit: "1 kg",
-        packaging: "Nachfüllung",
-        productUrl:
-          "https://eu.store.bambulab.com/de/products/pla-matte?p=W3sicHJvcGVydHlLZXkiOiJGYXJiZSIsInByb3BlcnR5VmFsdWUiOiJaaXRyb25lbmdlbGIgKDExNDAwKSJ9LHsicHJvcGVydHlLZXkiOiJUeXAiLCJwcm9wZXJ0eVZhbHVlIjoiIn0seyJwcm9wZXJ0eUtleSI6Ikdyw7bDn2UiLCJwcm9wZXJ0ZVZhbHVlIjoiMSBrZyJ9XQ%3D%3D",
-        imageUrl:
-          "https://store.bblcdn.eu/s8/default/5d308d9e41084f1b9d187805082f484a/Matte-Lemon-Yellow.png__op__resize,m_lfit,w_1920__op__format,f_auto__op__quality,q_80"
+        unit: "1 kg · Nachfüllung",
+        url: "https://eu.store.bambulab.com/de/products/pla-matte?p=W3sicHJvcGVydHlLZXkiOiJGYXJiZSIsInByb3BlcnR5VmFsdWUiOiJaaXRyb25lbmdlbGIgKDExNDAwKSJ9LHsicHJvcGVydHlLZXkiOiJUeXAiLCJwcm9wZXJ0eVZhbHVlIjoiIn0seyJwcm9wZXJ0eUtleSI6Ikdyw7bDn2UiLCJwcm9wZXJ0ZVZhbHVlIjoiMSBrZyJ9XQ%3D%3D",
+        image: "https://store.bblcdn.eu/s8/default/5d308d9e41084f1b9d187805082f484a/Matte-Lemon-Yellow.png__op__resize,m_lfit,w_1920__op__format,f_auto__op__quality,q_80"
       },
       {
+        name: "Rosenholz",
         type: "PLA Wood",
-        color: "Rosenholz",
         price: 27.99,
-        unit: "1 kg",
-        packaging: "Spule",
-        productUrl:
-          "https://eu.store.bambulab.com/de/products/pla-wood?id=53441583087964",
-        imageUrl:
-          "https://store.bblcdn.eu/s8/default/4063ef6f2a6f4a6dac964c52500e2240/2_a72cb84b-e92c-4efa-a205-589184265d78.jpg__op__resize,m_lfit,w_1920__op__format,f_auto__op__quality,q_80"
+        unit: "1 kg · Spule",
+        url: "https://eu.store.bambulab.com/de/products/pla-wood?id=53441583087964",
+        image: "https://store.bblcdn.eu/s8/default/4063ef6f2a6f4a6dac964c52500e2240/2_a72cb84b-e92c-4efa-a205-589184265d78.jpg__op__resize,m_lfit,w_1920__op__format,f_auto__op__quality,q_80"
       },
       {
+        name: "Metallisches Kobaltblau",
         type: "PLA Metal",
-        color: "Metallisches Kobaltblau",
         price: 27.99,
-        unit: "1 kg",
-        packaging: "Spule",
-        productUrl:
-          "https://eu.store.bambulab.com/de/products/pla-metal?id=43959185244379",
-        imageUrl:
-          "https://store.bblcdn.eu/s8/default/a8cb6b37d9d8430b88743d1784093c1a/A02-B2-1.75-1000-spl.png__op__resize,m_lfit,w_1920__op__format,f_auto__op__quality,q_80"
+        unit: "1 kg · Spule",
+        url: "https://eu.store.bambulab.com/de/products/pla-metal?id=43959185244379",
+        image: "https://store.bblcdn.eu/s8/default/a8cb6b37d9d8430b88743d1784093c1a/A02-B2-1.75-1000-spl.png__op__resize,m_lfit,w_1920__op__format,f_auto__op__quality,q_80"
       },
       {
+        name: "Iridium-Goldmetall",
         type: "PLA Metal",
-        color: "Iridium-Goldmetall",
         price: 27.99,
-        unit: "1 kg",
-        packaging: "Spule",
-        productUrl:
-          "https://eu.store.bambulab.com/de/products/pla-metal?id=46797851099484",
-        imageUrl:
-          "https://store.bblcdn.eu/s8/default/03f995ce7cb24c15a0b026076988dc1f/PLA-Metal_Iridium-Gold-Metallic.png__op__resize,m_lfit,w_1920__op__format,f_auto__op__quality,q_80"
+        unit: "1 kg · Spule",
+        url: "https://eu.store.bambulab.com/de/products/pla-metal?id=46797851099484",
+        image: "https://store.bblcdn.eu/s8/default/03f995ce7cb24c15a0b026076988dc1f/PLA-Metal_Iridium-Gold-Metallic.png__op__resize,m_lfit,w_1920__op__format,f_auto__op__quality,q_80"
       },
       {
+        name: "Candy-Rot",
         type: "PLA Silk+",
-        color: "Candy-Rot",
         price: 25.99,
-        unit: "1 kg",
-        packaging: "Spule",
-        productUrl:
-          "https://eu.store.bambulab.com/de/products/pla-silk-upgrade?id=53583205663068",
-        imageUrl:
-          "https://store.bblcdn.eu/s8/default/2309fbc5069f4f60bcfaefd2b9514dd0/PLA_Silk_5.jpg__op__resize,m_lfit,w_1920__op__format,f_auto__op__quality,q_80"
+        unit: "1 kg · Spule",
+        url: "https://eu.store.bambulab.com/de/products/pla-silk-upgrade?id=53583205663068",
+        image: "https://store.bblcdn.eu/s8/default/2309fbc5069f4f60bcfaefd2b9514dd0/PLA_Silk_5.jpg__op__resize,m_lfit,w_1920__op__format,f_auto__op__quality,q_80"
       },
       {
+        name: "Gold-Rosa",
         type: "PLA Silk+",
-        color: "Gold-Rosa",
         price: 19.99,
-        unit: "1 kg",
-        packaging: "Spule",
-        productUrl:
-          "https://eu.store.bambulab.com/de/products/pla-silk-upgrade?id=53583205957980",
-        imageUrl:
-          "https://store.bblcdn.eu/s8/default/bc09443440a541a693ac8e515931f554/PLA_Silk_10.jpg__op__resize,m_lfit,w_1920__op__format,f_auto__op__quality,q_80"
+        unit: "1 kg · Spule",
+        url: "https://eu.store.bambulab.com/de/products/pla-silk-upgrade?id=53583205957980",
+        image: "https://store.bblcdn.eu/s8/default/bc09443440a541a693ac8e515931f554/PLA_Silk_10.jpg__op__resize,m_lfit,w_1920__op__format,f_auto__op__quality,q_80"
       },
       {
+        name: "Silber",
         type: "PLA Silk+",
-        color: "Silber",
         price: 19.99,
-        unit: "1 kg",
-        packaging: "Spule",
-        productUrl:
-          "https://eu.store.bambulab.com/de/products/pla-silk-upgrade?id=53583205826908",
-        imageUrl:
-          "https://store.bblcdn.eu/s8/default/7d86004d3ab3461cb446f1faa3c4c3e3/PLA_Silk_11.jpg__op__resize,m_lfit,w_1920__op__format,f_auto__op__quality,q_80"
+        unit: "1 kg · Spule",
+        url: "https://eu.store.bambulab.com/de/products/pla-silk-upgrade?id=53583205826908",
+        image: "https://store.bblcdn.eu/s8/default/7d86004d3ab3461cb446f1faa3c4c3e3/PLA_Silk_11.jpg__op__resize,m_lfit,w_1920__op__format,f_auto__op__quality,q_80"
       },
       {
+        name: "Candy-Grün",
         type: "PLA Silk+",
-        color: "Candy-Grün",
         price: 19.99,
-        unit: "1 kg",
-        packaging: "Spule",
-        productUrl:
-          "https://eu.store.bambulab.com/de/products/pla-silk-upgrade?p=W3sicHJvcGVydHlLZXkiOiJGYXJiZSIsInByb3BlcnR5VmFsdWUiOiJDYW5keS1HcsO8biAoMTM1MDYpIn0seyJwcm9wZXJ0eUtleSI6IlR5cCIsInByb3BlcnR5VmFsdWUiOiIifSx7InByb3BlcnR5S2V5IjoiR3LDtsOfZSIsInByb3BlcnR5VmFsdWUiOiIxIGtnIn1d",
-        imageUrl:
-          "https://store.bblcdn.eu/s8/default/b6cb1b7292214ec0b38afb579d2f5f21/PLA_Silk_12.jpg__op__resize,m_lfit,w_1920__op__format,f_auto__op__quality,q_80"
+        unit: "1 kg · Spule",
+        url: "https://eu.store.bambulab.com/de/products/pla-silk-upgrade?p=W3sicHJvcGVydHlLZXkiOiJGYXJiZSIsInByb3BlcnR5VmFsdWUiOiJDYW5keS1HcsO8biAoMTM1MDYpIn0seyJwcm9wZXJ0eUtleSI6IlR5cCIsInByb3BlcnR5VmFsdWUiOiIifSx7InByb3BlcnR5S2V5IjoiR3LDtsOfZSIsInByb3BlcnR5VmFsdWUiOiIxIGtnIn1d",
+        image: "https://store.bblcdn.eu/s8/default/b6cb1b7292214ec0b38afb579d2f5f21/PLA_Silk_12.jpg__op__resize,m_lfit,w_1920__op__format,f_auto__op__quality,q_80"
       },
       {
+        name: "Aurora-Lila",
         type: "PLA Silk+ Multi-Color",
-        color: "Aurora-Lila",
         price: 27.99,
-        unit: "1 kg",
-        packaging: "Spule",
-        productUrl:
-          "https://eu.store.bambulab.com/de/products/pla-silk-multi-color?id=601314264425144330",
-        imageUrl:
-          "https://store.bblcdn.eu/s8/default/a58bfc024a514af186b3ca6d2df2bcd5/Aurora_Purple_(1).jpg__op__resize,m_lfit,w_1920__op__format,f_auto__op__quality,q_80"
+        unit: "1 kg · Spule",
+        url: "https://eu.store.bambulab.com/de/products/pla-silk-multi-color?id=601314264425144330",
+        image: "https://store.bblcdn.eu/s8/default/a58bfc024a514af186b3ca6d2df2bcd5/Aurora_Purple_(1).jpg__op__resize,m_lfit,w_1920__op__format,f_auto__op__quality,q_80"
       },
       {
+        name: "Black",
         type: "PETG HF",
-        color: "Black",
         price: 19.99,
-        unit: "1 kg",
-        packaging: "Spule",
-        productUrl:
-          "https://eu.store.bambulab.com/de/products/petg-hf?id=49068714754396",
-        imageUrl:
-          "https://store.bblcdn.eu/s8/default/d64929ed7cb941f28881cb09d8884251/PETG_HF_6.jpg__op__resize,m_lfit,w_1920__op__format,f_auto__op__quality,q_80"
+        unit: "1 kg · Spule",
+        url: "https://eu.store.bambulab.com/de/products/petg-hf?id=49068714754396",
+        image: "https://store.bblcdn.eu/s8/default/d64929ed7cb941f28881cb09d8884251/PETG_HF_6.jpg__op__resize,m_lfit,w_1920__op__format,f_auto__op__quality,q_80"
       },
       {
+        name: "Black (SUNLU)",
         type: "PETG",
-        color: "Black",
         price: 14.99,
-        unit: "1 kg",
-        packaging: "Spule",
-        productUrl:
-          "https://www.amazon.de/SUNLU-PETG-Filament-Un%C3%BCbertroffene-Druckfilament/dp/B0DYCP3ZW9?__mk_de_DE=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=1279NM2LP9UZH&dib=eyJ2IjoiMSJ9.UWGCXiUJVYMiZ8Ku3Aj_3mlQ9HbaT3gEXSRafNrkytTA4cdKeo6mW_cJ-WyJoGaCvZDDexD0mgBwyxMdRCA5Jfn0JJG_9gSknsFoHYjV176IjRIxlu_VCn36-N87DU4PGQQQrY9ugWfunSskQZU0O3uwSiAPRXwRtF0FCmKH2EcHQ7S4FpvQxJIKhF7ZU7Umw-SKt0H2Vz6-Z8Frs2VdBEnYP0jB3tCNUMTHLiV1T8uhJ9b53ZW--_QBqA1oBlDGRRf6CtEN70c4fBJ-P82dVI--dxJ2U4jHaQIKKp-xzG0.R6vECTP3jVRfC5GrJd04_Bo0ycrlK0hGyoS9egfAoHM&dib_tag=se&keywords=sunlu+petg+black&qid=1792843071&sprefix=sunlu+petg+blac%2Caps%2C183&sr=8-6",
-        imageUrl:
-          "https://m.media-amazon.com/images/I/71mBnwkKHBL._AC_SL1500_.jpg"
+        unit: "1 kg · Spule",
+        url: "https://www.amazon.de/SUNLU-PETG-Filament-Un%C3%BCbertroffene-Druckfilament/dp/B0DYCP3ZW9?__mk_de_DE=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=1279NM2LP9UZH&dib=eyJ2IjoiMSJ9.UWGCXiUJVYMiZ8Ku3Aj_3mlQ9HbaT3gEXSRafNrkytTA4cdKeo6mW_cJ-WyJoGaCvZDDexD0mgBwyxMdRCA5Jfn0JJG_9gSknsFoHYjV176IjRIxlu_VCn36-N87DU4PGQQQrY9ugWfunSskQZU0O3uwSiAPRXwRtF0FCmKH2EcHQ7S4FpvQxJIKhF7ZU7Umw-SKt0H2Vz6-Z8Frs2VdBEnYP0jB3tCNUMTHLiV1T8uhJ9b53ZW--_QBqA1oBlDGRRf6CtEN70c4fBJ-P82dVI--dxJ2U4jHaQIKKp-xzG0.R6vECTP3jVRfC5GrJd04_Bo0ycrlK0hGyoS9egfAoHM&dib_tag=se&keywords=sunlu+petg+black&qid=1792843071&sprefix=sunlu+petg+blac%2Caps%2C183&sr=8-6",
+        image: "https://m.media-amazon.com/images/I/71mBnwkKHBL._AC_SL1500_.jpg"
       },
       {
+        name: "Sunny Orange (SUNLU)",
         type: "PETG",
-        color: "Sunny Orange",
         price: 23.99,
-        unit: "1 kg",
-        packaging: "Spule",
-        productUrl:
-          "https://www.amazon.de/SUNLU-PETG-Filament-Un%C3%BCbertroffene-Druckfilament/dp/B0FP27VL6Y?__mk_de_DE=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=2ZEAW6TPHUTTA&dib=eyJ2IjoiMSJ9.qCX4IWmWPxvQjjZXm3kN2vHo0223poU8WRgXbtgokRH-vUB8NY_UDhtf0yxJctQJyCR5co6QUD0gjwJUxA0rMcBHdTvGWUx_fO1xWcFnRGCR9sbLaxEaFPNQr_GPujFyakJXs9911_FH6ICWYa-Gk4qIX8m9JKJA-kmMVAD1hmpQmjZa9e_FJR_18jW8nSzaFCCqjp4qqTGINLgKQJt4RUzD8PBTtNBhsCzAaG64gHxrfQrDNT5IHbB3LQhXguM2jJ0VCLxCBIrdyRmaFkLw01t6Z8FnKwV7HN74dY-EEec.0H7xSXFtHjMbRHBbMxpo94FImwak30Yt_d-PxNw2QkU&dib_tag=se&keywords=sunlu+orange+petg&qid=1792843719&sprefix=sunlu+orange+petg%2Caps%2C142&sr=8-6",
-        imageUrl:
-          "https://m.media-amazon.com/images/I/81XVdao63KL._AC_SX679_.jpg"
+        unit: "1 kg · Spule",
+        url: "https://www.amazon.de/SUNLU-PETG-Filament-Un%C3%BCbertroffene-Druckfilament/dp/B0FP27VL6Y?__mk_de_DE=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=2ZEAW6TPHUTTA&dib=eyJ2IjoiMSJ9.qCX4IWmWPxvQjjZXm3kN2vHo0223poU8WRgXbtgokRH-vUB8NY_UDhtf0yxJctQJyCR5co6QUD0gjwJUxA0rMcBHdTvGWUx_fO1xWcFnRGCR9sbLaxEaFPNQr_GPujFyakJXs9911_FH6ICWYa-Gk4qIX8m9JKJA-kmMVAD1hmpQmjZa9e_FJR_18jW8nSzaFCCqjp4qqTGINLgKQJt4RUzD8PBTtNBhsCzAaG64gHxrfQrDNT5IHbB3LQhXguM2jJ0VCLxCBIrdyRmaFkLw01t6Z8FnKwV7HN74dY-EEec.0H7xSXFtHjMbRHBbMxpo94FImwak30Yt_d-PxNw2QkU&dib_tag=se&keywords=sunlu+orange+petg&qid=1792843719&sprefix=sunlu+orange+petg%2Caps%2C142&sr=8-6",
+        image: "https://m.media-amazon.com/images/I/81XVdao63KL._AC_SX679_.jpg"
       }
     ];
-
-    const library = document.getElementById("filament-library");
 
     const typeOrder = [
       "PLA Basic",
@@ -462,90 +466,87 @@
       "PETG"
     ];
 
-    const groupedFilaments = filaments.reduce((groups, filament) => {
-      if (!groups[filament.type]) {
-        groups[filament.type] = [];
-      }
-      groups[filament.type].push(filament);
-      return groups;
-    }, {});
+    const groupsContainer = document.getElementById("filament-groups");
 
-    const euroFormatter = new Intl.NumberFormat("de-DE", {
-      style: "currency",
-      currency: "EUR"
-    });
+    function createFilamentCard(filament) {
+      const card = document.createElement("a");
+      card.className = "filament-card";
+      card.href = filament.url;
+      card.target = "_blank";
+      card.rel = "noopener noreferrer";
+      card.setAttribute("aria-label", `${filament.name}, ${filament.type} – Details öffnen`);
 
-    typeOrder.forEach((type) => {
-      const items = groupedFilaments[type];
-      if (!items) return;
+      const imageContainer = document.createElement("div");
+      imageContainer.className = "filament-image";
+
+      const image = document.createElement("img");
+      image.src = filament.image;
+      image.alt = filament.name;
+      image.loading = "lazy";
+      image.decoding = "async";
+      imageContainer.appendChild(image);
+
+      const info = document.createElement("div");
+      info.className = "filament-info";
+
+      const name = document.createElement("h3");
+      name.className = "filament-name";
+      name.textContent = filament.name;
+
+      const type = document.createElement("p");
+      type.className = "filament-type";
+      type.textContent = filament.type;
+
+      const price = document.createElement("div");
+      price.className = "filament-price";
+      price.textContent = filament.price.toLocaleString("de-DE", {
+        style: "currency",
+        currency: "EUR"
+      });
+
+      const unit = document.createElement("div");
+      unit.className = "filament-unit";
+      unit.textContent = filament.unit;
+
+      const details = document.createElement("div");
+      details.className = "filament-details";
+
+      const detailsLabel = document.createElement("span");
+      detailsLabel.textContent = "Details";
+
+      const arrow = document.createElement("span");
+      arrow.setAttribute("aria-hidden", "true");
+      arrow.textContent = "↗";
+
+      details.append(detailsLabel, arrow);
+      info.append(name, type, price, unit, details);
+      card.append(imageContainer, info);
+
+      return card;
+    }
+
+    typeOrder.forEach((typeName) => {
+      const groupFilaments = filaments.filter(
+        (filament) => filament.type === typeName
+      );
+
+      if (groupFilaments.length === 0) return;
 
       const section = document.createElement("section");
       section.className = "filament-group";
 
       const heading = document.createElement("h2");
-      heading.textContent = type;
-      section.appendChild(heading);
+      heading.textContent = typeName;
 
       const grid = document.createElement("div");
       grid.className = "filament-grid";
 
-      items.forEach((filament) => {
-        const card = document.createElement("a");
-        card.className = "product-card";
-        card.href = filament.productUrl;
-        card.target = "_blank";
-        card.rel = "noopener noreferrer";
-        card.setAttribute(
-          "aria-label",
-          `${filament.color}, ${filament.type}, ${euroFormatter.format(filament.price)} – Details öffnen`
-        );
-
-        const imageContainer = document.createElement("div");
-        imageContainer.className = "product-image";
-
-        const image = document.createElement("img");
-        image.src = filament.imageUrl;
-        image.alt = `${filament.color} – ${filament.type}`;
-        image.loading = "lazy";
-        imageContainer.appendChild(image);
-
-        const info = document.createElement("div");
-        info.className = "product-info";
-
-        const name = document.createElement("h3");
-        name.className = "product-name";
-        name.textContent = filament.color;
-
-        const productType = document.createElement("div");
-        productType.className = "product-type";
-        productType.textContent = filament.type;
-
-        const price = document.createElement("div");
-        price.className = "product-price";
-        price.textContent = euroFormatter.format(filament.price);
-
-        const unit = document.createElement("div");
-        unit.className = "product-unit";
-        unit.textContent = `${filament.packaging} · ${filament.unit}`;
-
-        const linkLabel = document.createElement("div");
-        linkLabel.className = "product-link-label";
-
-        const details = document.createElement("span");
-        details.textContent = "Details";
-
-        const arrow = document.createElement("span");
-        arrow.setAttribute("aria-hidden", "true");
-        arrow.textContent = "↗";
-
-        linkLabel.append(details, arrow);
-        info.append(name, productType, price, unit, linkLabel);
-        card.append(imageContainer, info);
-        grid.appendChild(card);
+      groupFilaments.forEach((filament) => {
+        grid.appendChild(createFilamentCard(filament));
       });
 
-      section.appendChild(grid);
-      library.appendChild(section);
+      section.append(heading, grid);
+      groupsContainer.appendChild(section);
     });
   </script>
 </body>
