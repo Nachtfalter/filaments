@@ -1,207 +1,365 @@
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Filament Bibliothek</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f5f5f5">
+  <title>Meine Filament-Bibliothek</title>
 
-<style>
-* { box-sizing: border-box; }
+  <style>
+    :root {
+      color-scheme: light;
+      --background: #f5f5f5;
+      --card-background: #ffffff;
+      --text: #202020;
+      --muted: #737373;
+      --border: #e8e8e8;
+      --radius: 16px;
+    }
 
-body {
-  margin: 0;
-  color: #222;
-  background: #fff;
-  font-family: Arial, Helvetica, sans-serif;
-}
+    * {
+      box-sizing: border-box;
+    }
 
-main {
-  max-width: 1450px;
-  margin: auto;
-  padding: 42px 28px 60px;
-}
+    body {
+      margin: 0;
+      background: var(--background);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
 
-h1 {
-  margin: 0 0 10px;
-  font-size: clamp(28px, 4vw, 38px);
-  font-weight: 600;
-}
+    .container {
+      width: min(1400px, 100%);
+      margin: 0 auto;
+      padding: 40px 28px 64px;
+    }
 
-.subtitle {
-  margin: 0 0 34px;
-  color: #777;
-}
+    .page-header {
+      margin-bottom: 42px;
+    }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 32px 24px;
-}
+    .page-header h1 {
+      margin: 0;
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 700;
+      letter-spacing: -1.2px;
+    }
 
-.card {
-  width: 100%;
-  max-width: 300px;
-  justify-self: center;
-}
+    .page-header p {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
 
-.image-box {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  padding: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  background: #f2f2f2;
-}
+    .filament-section {
+      margin-bottom: 44px;
+    }
 
-.image-box img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
 
-.color-preview {
-  width: 100%;
-  height: 100%;
-  background: var(--filament-color);
-}
+    .section-header h2 {
+      margin: 0;
+      font-size: 23px;
+      font-weight: 650;
+      letter-spacing: -0.5px;
+    }
 
-.details {
-  padding: 15px 2px 0;
-}
+    .section-count {
+      color: var(--muted);
+      font-size: 13px;
+      white-space: nowrap;
+    }
 
-.brand {
-  margin: 0 0 7px;
-  color: #777;
-  font-size: 13px;
-}
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 20px;
+      align-items: stretch;
+    }
 
-h2 {
-  margin: 0;
-  font-size: 22px;
-  line-height: 1.35;
-  font-weight: 500;
-}
+    .product-card {
+      display: flex;
+      min-width: 0;
+      flex-direction: column;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--card-background);
+      color: inherit;
+      text-decoration: none;
+      transition: transform 160ms ease, box-shadow 160ms ease;
+    }
 
-.material {
-  margin: 7px 0 14px;
-  color: #777;
-  font-size: 14px;
-}
+    .product-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgb(0 0 0 / 6%);
+    }
 
-.price {
-  margin: 0 0 17px;
-  color: #f15a24;
-  font-size: 21px;
-  font-weight: 600;
-}
+    .product-image {
+      display: flex;
+      aspect-ratio: 1 / 1;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 12px;
+      background: #ffffff;
+    }
 
-.price small {
-  display: block;
-  margin-top: 4px;
-  color: #888;
-  font-size: 13px;
-  font-weight: 400;
-}
+    .product-image img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
 
-.product-link {
-  display: inline-block;
-  color: #222;
-  text-decoration: none;
-  border-bottom: 1px solid #999;
-  padding-bottom: 3px;
-  font-size: 14px;
-}
+    .product-info {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      padding: 18px;
+    }
 
-.product-link:hover {
-  color: #f15a24;
-  border-color: #f15a24;
-}
+    .product-name {
+      margin: 0;
+      font-size: 19px;
+      font-weight: 650;
+      line-height: 1.3;
+      letter-spacing: -0.3px;
+      overflow-wrap: anywhere;
+    }
 
-@media (max-width: 600px) {
-  main { padding: 26px 16px 40px; }
-  .grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 26px 14px;
-  }
-  .card { max-width: none; }
-  h2 { font-size: 17px; }
-  .price { font-size: 17px; }
-}
-</style>
+    .product-type {
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .product-price {
+      margin-top: auto;
+      padding-top: 22px;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .product-unit {
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .product-link-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .product-link-label span:last-child {
+      font-size: 17px;
+    }
+
+    @media (max-width: 1000px) {
+      .product-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .container {
+        padding-right: 20px;
+        padding-left: 20px;
+      }
+    }
+
+    @media (max-width: 650px) {
+      .container {
+        padding: 26px 14px 44px;
+      }
+
+      .page-header {
+        margin-bottom: 30px;
+      }
+
+      .product-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .product-info {
+        padding: 13px;
+      }
+
+      .product-name {
+        font-size: 16px;
+      }
+
+      .product-type {
+        font-size: 12px;
+      }
+
+      .product-price {
+        padding-top: 18px;
+        font-size: 16px;
+      }
+
+      .product-unit {
+        font-size: 12px;
+      }
+
+      .product-link-label {
+        font-size: 11px;
+      }
+
+      .section-header h2 {
+        font-size: 21px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .product-card {
+        transition: none;
+      }
+
+      .product-card:hover {
+        transform: none;
+      }
+    }
+  </style>
 </head>
 
 <body>
-<main>
-  <h1>Filament Bibliothek</h1>
-  <p class="subtitle">Meine Filamente auf einen Blick.</p>
+  <main class="container">
+    <header class="page-header">
+      <h1>Meine Filament-Bibliothek</h1>
+      <p>Meine Filamente auf einen Blick.</p>
+    </header>
 
-  <section class="grid">
+    <div id="filament-library"></div>
+  </main>
 
-    <!-- JADE WHITE -->
-    <article class="card">
-      <div class="image-box">
-        <div class="color-preview" style="--filament-color:#f7f7f3"></div>
-      </div>
-      <div class="details">
-        <p class="brand">Bambu Lab</p>
-        <h2>Jade White</h2>
-        <p class="material">PLA Basic</p>
-        <p class="price">22,99 €
-          <small>/ Rolle 1 kg</small>
-        </p>
-        <a class="product-link"
-           href="https://eu.store.bambulab.com/products/pla-basic-filament"
-           target="_blank" rel="noopener noreferrer">
-          Produkt ansehen ↗
-        </a>
-      </div>
-    </article>
+  <script>
+    const filaments = [
+      {
+        type: "PLA Silk+",
+        color: "Candy Red",
+        price: 25.99,
+        unit: "1 kg",
+        productUrl:
+          "https://eu.store.bambulab.com/de/products/pla-silk-upgrade?id=53583205695836",
+        imageUrl:
+          "https://store.bblcdn.eu/s8/default/2309fbc5069f4f60bcfaefd2b9514dd0/PLA_Silk_5.jpg__op__resize,m_lfit,w_1920__op__format,f_auto__op__quality,q_80"
+      }
+    ];
 
-    <!-- CANDY RED -->
-    <article class="card">
-      <div class="image-box">
-        <img
-          src="https://store.bblcdn.com/s3/default/837fde7ee7f14b36ac6ee221f89eab94/img_v3_02i5_d4873199-3116-466a-b2b9-e819b7db0e3g.jpg"
-          alt="Bambu Lab PLA Silk+ Candy Red">
-      </div>
-      <div class="details">
-        <p class="brand">Bambu Lab</p>
-        <h2>Candy Red</h2>
-        <p class="material">PLA Silk+</p>
-        <p class="price">25,99 €
-          <small>/ Rolle 1 kg</small>
-        </p>
-        <a class="product-link"
-           href="https://eu.store.bambulab.com/products/pla-silk-upgrade"
-           target="_blank" rel="noopener noreferrer">
-          Produkt ansehen ↗
-        </a>
-      </div>
-    </article>
+    const library = document.getElementById("filament-library");
 
-    <!-- NARDO GRAY -->
-    <article class="card">
-      <div class="image-box">
-        <div class="color-preview" style="--filament-color:#858781"></div>
-      </div>
-      <div class="details">
-        <p class="brand">Bambu Lab</p>
-        <h2>Nardo Gray</h2>
-        <p class="material">PLA Matte</p>
-        <p class="price">22,99 €
-          <small>/ Rolle 1 kg</small>
-        </p>
-        <a class="product-link"
-           href="https://eu.store.bambulab.com/products/pla-matte-filament"
-           target="_blank" rel="noopener noreferrer">
-          Produkt ansehen ↗
-        </a>
-      </div>
-    </article>
+    const groupedFilaments = filaments.reduce((groups, filament) => {
+      if (!groups[filament.type]) {
+        groups[filament.type] = [];
+      }
 
-  </section>
-</main>
+      groups[filament.type].push(filament);
+      return groups;
+    }, {});
+
+    Object.entries(groupedFilaments).forEach(([type, products]) => {
+      const section = document.createElement("section");
+      section.className = "filament-section";
+
+      const header = document.createElement("div");
+      header.className = "section-header";
+
+      const heading = document.createElement("h2");
+      heading.textContent = type;
+
+      const count = document.createElement("span");
+      count.className = "section-count";
+      count.textContent =
+        `${products.length} ${products.length === 1 ? "Filament" : "Filamente"}`;
+
+      header.append(heading, count);
+
+      const grid = document.createElement("div");
+      grid.className = "product-grid";
+
+      products.forEach((product) => {
+        const card = document.createElement("a");
+        card.className = "product-card";
+        card.href = product.productUrl;
+        card.target = "_blank";
+        card.rel = "noopener noreferrer";
+        card.setAttribute(
+          "aria-label",
+          `${product.color} – ${product.type} im offiziellen Shop öffnen`
+        );
+
+        const imageContainer = document.createElement("div");
+        imageContainer.className = "product-image";
+
+        const image = document.createElement("img");
+        image.src = product.imageUrl;
+        image.alt = `${product.color} – ${product.type}`;
+        image.loading = "lazy";
+        image.decoding = "async";
+
+        imageContainer.appendChild(image);
+
+        const info = document.createElement("div");
+        info.className = "product-info";
+
+        const name = document.createElement("h3");
+        name.className = "product-name";
+        name.textContent = product.color;
+
+        const productType = document.createElement("div");
+        productType.className = "product-type";
+        productType.textContent = product.type;
+
+        const price = document.createElement("div");
+        price.className = "product-price";
+        price.textContent = product.price.toLocaleString("de-DE", {
+          style: "currency",
+          currency: "EUR"
+        });
+
+        const unit = document.createElement("div");
+        unit.className = "product-unit";
+        unit.textContent = `/ Rolle · ${product.unit}`;
+
+        const linkLabel = document.createElement("div");
+        linkLabel.className = "product-link-label";
+
+        const linkText = document.createElement("span");
+        linkText.textContent = "Zum Hersteller";
+
+        const arrow = document.createElement("span");
+        arrow.setAttribute("aria-hidden", "true");
+        arrow.textContent = "↗";
+
+        linkLabel.append(linkText, arrow);
+
+        info.append(name, productType, price, unit, linkLabel);
+        card.append(imageContainer, info);
+        grid.appendChild(card);
+      });
+
+      section.append(header, grid);
+      library.appendChild(section);
+    });
+  </script>
 </body>
 </html>
