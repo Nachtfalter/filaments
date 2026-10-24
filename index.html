@@ -47,12 +47,6 @@
       letter-spacing: -1.2px;
     }
 
-    .page-header p {
-      margin: 10px 0 0;
-      color: var(--muted);
-      font-size: 15px;
-    }
-
     .filament-section {
       margin-bottom: 44px;
     }
@@ -103,7 +97,8 @@
       box-shadow: 0 8px 24px rgb(0 0 0 / 6%);
     }
 
-    .product-card:focus-visible {
+    .product-card:focus-visible,
+    .shop-links a:focus-visible {
       outline: 3px solid #777;
       outline-offset: 3px;
     }
@@ -177,6 +172,44 @@
       font-size: 17px;
     }
 
+    .shop-section {
+      margin-top: 56px;
+      padding-top: 28px;
+      border-top: 1px solid var(--border);
+    }
+
+    .shop-section h2 {
+      margin: 0;
+      font-size: 23px;
+      font-weight: 650;
+      letter-spacing: -0.5px;
+    }
+
+    .shop-section p {
+      margin: 10px 0 14px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .shop-links {
+      margin: 0;
+      padding-left: 20px;
+      font-size: 14px;
+      line-height: 1.9;
+    }
+
+    .shop-links a {
+      color: var(--text);
+      text-decoration: underline;
+      text-decoration-color: #b7b7b7;
+      text-underline-offset: 3px;
+    }
+
+    .shop-links a:hover {
+      text-decoration-color: var(--text);
+    }
+
     @media (max-width: 1000px) {
       .product-grid {
         grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -228,8 +261,14 @@
         font-size: 11px;
       }
 
-      .section-header h2 {
+      .section-header h2,
+      .shop-section h2 {
         font-size: 21px;
+      }
+
+      .shop-section {
+        margin-top: 40px;
+        padding-top: 24px;
       }
     }
 
@@ -249,10 +288,31 @@
   <main class="container">
     <header class="page-header">
       <h1>Meine Filament-Bibliothek</h1>
-      <p>Meine Filamente auf einen Blick.</p>
     </header>
 
     <div id="filament-library"></div>
+
+    <section class="shop-section" aria-labelledby="shop-heading">
+      <h2 id="shop-heading">Nicht gefunden, was du gerne hättest?</h2>
+      <p>Hier findest du weitere Filamente in den offiziellen Shops.</p>
+
+      <ul class="shop-links">
+        <li>
+          <a
+            href="https://eu.store.bambulab.com/de/collections/bambu-lab-3d-printer-filament?Durch+Material=PLA%2CPETG&Druckertyp=F%C3%BCr+die+P+Serie&Kompatibilit%C3%A4t=Kompatibel+mit+AMS&page=1"
+            target="_blank"
+            rel="noopener noreferrer"
+          >Bambu Lab – Filament für die P-Serie</a>
+        </li>
+        <li>
+          <a
+            href="https://de.store.sunlu.com/collections/3d-drucker-filament?filter.v.availability=1"
+            target="_blank"
+            rel="noopener noreferrer"
+          >SUNLU – Verfügbare Filamente</a>
+        </li>
+      </ul>
+    </section>
   </main>
 
   <script>
@@ -266,6 +326,16 @@
           "https://eu.store.bambulab.com/de/products/pla-silk-upgrade?id=53583205695836",
         imageUrl:
           "https://store.bblcdn.eu/s8/default/2309fbc5069f4f60bcfaefd2b9514dd0/PLA_Silk_5.jpg__op__resize,m_lfit,w_1920__op__format,f_auto__op__quality,q_80"
+      },
+      {
+        type: "PLA Silk+",
+        color: "Gold-Rosa",
+        price: 19.99,
+        unit: "1 kg",
+        productUrl:
+          "https://eu.store.bambulab.com/de/products/pla-silk-upgrade?id=53583205957980",
+        imageUrl:
+          "https://store.bblcdn.eu/s8/default/bc09443440a541a693ac8e515931f554/PLA_Silk_10.jpg__op__resize,m_lfit,w_1920__op__format,f_auto__op__quality,q_80"
       },
       {
         type: "PLA Matte",
@@ -378,7 +448,7 @@
         linkLabel.className = "product-link-label";
 
         const linkText = document.createElement("span");
-        linkText.textContent = "Zum Hersteller";
+        linkText.textContent = "Details";
 
         const arrow = document.createElement("span");
         arrow.setAttribute("aria-hidden", "true");
