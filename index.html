@@ -49,7 +49,7 @@
 
     .intro {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 16px;
       margin: 0 0 40px;
     }
@@ -74,8 +74,74 @@
       line-height: 1.6;
     }
 
+    .category-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 0 0 36px;
+      padding: 16px 18px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+
+    .category-nav a {
+      color: var(--text);
+      text-decoration: none;
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      font-size: 14px;
+    }
+
+    .category-nav a:hover {
+      background: #f5f5f5;
+      border-color: #bdbdbd;
+    }
+
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 0 0 28px;
+    }
+
+    .filter-button {
+      appearance: none;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 9px 15px;
+      background: var(--card);
+      color: var(--text);
+      font: inherit;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 160ms ease, color 160ms ease, border-color 160ms ease;
+    }
+
+    .filter-button:hover {
+      border-color: #bdbdbd;
+    }
+
+    .filter-button[aria-pressed="true"] {
+      background: var(--text);
+      color: #ffffff;
+      border-color: var(--text);
+    }
+
+    .filter-status {
+      margin: -12px 0 24px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
     .filament-group {
       margin-bottom: 42px;
+      scroll-margin-top: 24px;
+    }
+
+    .filament-group[hidden] {
+      display: none;
     }
 
     .filament-group h2 {
@@ -285,7 +351,15 @@
         <h2>PETG</h2>
         <p>Zäher und wärmebeständiger als PLA. Gut für Funktionsteile und feuchte Umgebungen; UV-Beständigkeit ist materialabhängig.</p>
       </div>
+
+      <div class="intro-item">
+        <h2>ASA</h2>
+        <p>Robuster, UV- und witterungsbeständiger Kunststoff. Eignet sich für funktionale Bauteile im Außenbereich und bleibt auch bei Sonneneinstrahlung und wechselnden Wetterbedingungen formstabil. Zudem bietet ASA eine gute Schlagfestigkeit und Wärmebeständigkeit.</p>
+      </div>
     </section>
+
+    <nav class="filter-bar" id="filter-bar" aria-label="Filamente nach Material filtern"></nav>
+    <p class="filter-status" id="filter-status" aria-live="polite"></p>
 
     <div id="filament-groups"></div>
 
@@ -472,9 +546,9 @@
       name: "Schwarz",
       brand: "SUNLU",
       type: "ASA",
-      price: "20,99 €",
+      price: 20.99,
       unit: "1 kg · Spule",
-      link: "https://www.amazon.de/dp/B0B18CQGQJ?th=1",
+      url: "https://www.amazon.de/dp/B0B18CQGQJ?th=1",
       image: "https://m.media-amazon.com/images/I/715+CK8ABoL._AC_SL1500_.jpg"
       }
     ];
@@ -492,6 +566,9 @@
     ];
 
     const groupsContainer = document.getElementById("filament-groups");
+    const filterBar = document.getElementById("filter-bar");
+    const filterStatus = document.getElementById("filter-status");
+    let activeFilter = "Alle";
 
     function createFilamentCard(filament) {
       const card = document.createElement("a");
@@ -559,6 +636,7 @@
 
       const section = document.createElement("section");
       section.className = "filament-group";
+      section.dataset.type = typeName;
 
       const heading = document.createElement("h2");
       heading.textContent = typeName;
@@ -573,6 +651,43 @@
       section.append(heading, grid);
       groupsContainer.appendChild(section);
     });
+
+    // Filter-Schaltflächen passend zu den tatsächlich vorhandenen Kategorien erzeugen.
+    const availableTypes = typeOrder.filter((typeName) =>
+      filaments.some((filament) => filament.type === typeName)
+    );
+
+    function applyFilter(typeName) {
+      activeFilter = typeName;
+
+      document.querySelectorAll(".filament-group").forEach((section) => {
+        const isVisible = typeName === "Alle" || section.dataset.type === typeName;
+        section.hidden = !isVisible;
+      });
+
+      filterBar.querySelectorAll(".filter-button").forEach((button) => {
+        button.setAttribute("aria-pressed", String(button.dataset.filter === typeName));
+      });
+
+      const visibleCount = filaments.filter((filament) =>
+        typeName === "Alle" || filament.type === typeName
+      ).length;
+
+      filterStatus.textContent = `${visibleCount} ${visibleCount === 1 ? "Filament" : "Filamente"} angezeigt`;
+    }
+
+    ["Alle", ...availableTypes].forEach((typeName) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "filter-button";
+      button.dataset.filter = typeName;
+      button.textContent = typeName;
+      button.setAttribute("aria-pressed", "false");
+      button.addEventListener("click", () => applyFilter(typeName));
+      filterBar.appendChild(button);
+    });
+
+    applyFilter("Alle");
   </script>
 </body>
 </html>
